@@ -1,0 +1,41 @@
+{% load thumbnail sekizai_tags %}
+
+{% addtoblock "js" %}
+<script type="text/javascript" src="{{ MEDIA_URL }}cmsplugin_gallery/js/jquery.cycle.all.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { 
+    $('.slideshow').cycle({ 
+        fx: 'fade', 
+        speed: 1000, 
+        timeout: 3000,
+        containerResize: false,
+        width:  {{ gallery.get_size.0 }},
+        height: {{ gallery.get_size.1 }},
+        next: '.gallery .next',
+        prev: '.gallery .prev',
+    }); 
+  }); 
+</script>
+{% endaddtoblock %}
+
+{% addtoblock "css" %}
+<link href="{{ MEDIA_URL }}cmsplugin_gallery/css/cycler.css" media="all" rel="stylesheet" type="text/css" />
+{% endaddtoblock %}
+
+
+<div class="gallery"> 
+  <div class="prev"></div>
+  <div class="slideshow">
+    {% for image in images %}
+      {# % thumbnail image.src gallery.get_size crop upscale as thumb % #}
+      {% with image.src as im %}
+      {#<img src="{{ MEDIA_URL }}{{ thumb }}" width="{{ thumb.width }}px" height="{{ thumb.height }}px"#}
+        <img src="{{ MEDIA_URL }}{{ im.rel_image_url }}" width="{{ im.width }}" height="{{ im.height }}"
+        {% if image.alt %}alt="{{ image.alt }}"{% endif %}
+        {% if image.title %}title="{{ image.title }}"{% endif %}
+        />
+      {% endwith %}
+    {% endfor %}
+  </div>
+  <div class="next"></div>
+</div>
