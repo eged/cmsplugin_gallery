@@ -11,6 +11,13 @@ class CMSGalleryPlugin(CMSPluginBase):
     inlines = [admin.ImageInline,]
     name = _('Image gallery')
     render_template = 'cmsplugin_gallery/gallery.html'
+    admin_preview = False
+    
+    class Media:
+        js = (
+            'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js',
+            'http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js',
+        )
     
     def render(self, context, instance, placeholder):
         context.update({'images': instance.image_set.all(), 'gallery': instance})

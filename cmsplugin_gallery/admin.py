@@ -5,6 +5,7 @@ import models
 class ImageInline(OrderableStackedInline):
     
     model = models.Image
+    extra = 0
     
     def formfield_for_dbfield(self, db_field, **kwargs):
         if db_field.name == 'src':
