@@ -1,4 +1,3 @@
-import admin
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 from django.utils.translation import ugettext_lazy as _
@@ -8,19 +7,14 @@ import models
 class CMSGalleryPlugin(CMSPluginBase):
     
     model = models.GalleryPlugin
-    inlines = [admin.ImageInline,]
     name = _('Image gallery')
     render_template = 'cmsplugin_gallery/gallery.html'
     admin_preview = False
     
-    class Media:
-        js = (
-            'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js',
-            'http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js',
-        )
     
     def render(self, context, instance, placeholder):
-        context.update({'images': instance.image_set.all(), 'gallery': instance})
+        images = instance.folder.files.filter(image__isnull=False)
+        context.update({'images': images, 'gallery': instance})
         self.render_template = instance.template
         return context
 
