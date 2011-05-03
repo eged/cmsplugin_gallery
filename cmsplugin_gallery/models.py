@@ -17,7 +17,7 @@ class GalleryPlugin(CMSPlugin):
     height = models.PositiveSmallIntegerField(editable=False, null=True)
     
     def __unicode__(self):
-        return _(u'%(count)d image(s) in gallery') % {'count': self.image_set.count()}
+        return _(u'%(count)d image(s) in gallery') % {'count': self.folder.file_count()}
 
     def get_size(self):
         """ returns given or found width x height tuple"""
